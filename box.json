@@ -1,0 +1,39 @@
+{
+    "name":"cfreverb",
+    "slug":"cfreverb",
+    "version":"0.5.0",
+    "author":"Jordan Clark <jordanclark@gmail.com>",
+    "keywords":[
+        "reverb",
+		"shopping",
+		"ecommerce",
+        "api",
+        "rest"
+    ],
+    "shortDescription":"API client for reverb.com sellers",
+    "type":"modules",
+    "location":"jordanclark/cfreverb#v0.5.0",
+    "repository":{
+        "URL":"https://github.com/jordanclark/cfreverb.git",
+        "type":"GIT"
+    },
+    "homepage":"https://github.com/jordanclark/cfreverb",
+    "bugs":"https://github.com/jordanclark/cfreverb/issues",
+    "license":[
+        {
+            "type":"Apache-2.0",
+            "URL":"https://github.com/jordanclark/cfreverb/blob/master/LICENSE"
+        }
+    ],
+    "private":false,
+    "ignore":[
+        "**/.*",
+        "/test/",
+        "/tests/"
+    ],
+    "scripts":{
+        "postVersion":"package set location='jordanclark/cfreverb#v`package version`'",
+        "onRelease":"publish",
+        "postPublish":"!git push --follow-tags"
+    }
+}
