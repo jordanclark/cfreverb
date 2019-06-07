@@ -3,7 +3,7 @@ component name="reverb" displayname="reverb API REST Wrapper v2" {
 
 	reverb function init(
 		required string apiBearer
-	,	string apiVersion= 3.0
+	,	string apiVersion= "3.0"
 	,	string apiUrl= "https://api.reverb.com/api"
 	,	string apiCurrency= "USD"
 	,	string userAgent= "CFML API Agent 0.1"
@@ -57,7 +57,7 @@ component name="reverb" displayname="reverb API REST Wrapper v2" {
 
 	struct function apiRequest(required string api) {
 		var wait= 0;
-		var response= {};
+		var http= {};
 		var item= "";
 		var out= {
 			args= arguments
@@ -103,12 +103,13 @@ component name="reverb" displayname="reverb API REST Wrapper v2" {
 			}
 		}
 		cftimer( type="debug", label="reverb request" ) {
-			cfhttp( charset="UTF-8", throwOnError=false, userAgent=this.userAgent, url=out.requestUrl, password=this.apiBearer, timeOut=this.httpTimeOut, username="Bearer", result="response", method=out.verb ) {
-				cfhttpparam( name="Authorization", type="header", value="Bearer #this.apiBearer#" );
-				cfhttpparam( name="content-type", type="header", value="application/hal+json" );
-				cfhttpparam( name="Accept", type="header", value="application/hal+json" );
-				cfhttpparam( name="Accept-Version", type="header", value=this.apiVersion );
-				cfhttpparam( name="X-Display-Currency", type="header", value=this.apiCurrency );
+			cfhttp( result="http", method=out.verb, url=out.requestUrl, charset="UTF-8", throwOnError=false,
+				userAgent=this.userAgent, timeOut=this.httpTimeOut ) {
+				cfhttpparam( type="header", name="authorization", value="Bearer #this.apiBearer#" );
+				cfhttpparam( type="header", name="content-type", value="application/hal+json" );
+				cfhttpparam( type="header", name="accept", value="application/hal+json" );
+				cfhttpparam( type="header", name="accept-version", value=this.apiVersion );
+				cfhttpparam( type="header", name="x-display-currency", value=this.apiCurrency );
 				if ( structKeyExists( out, "body" ) ) {
 					cfhttpparam( type="body", value=out.body );
 				}
@@ -118,7 +119,7 @@ component name="reverb" displayname="reverb API REST Wrapper v2" {
 				server.reverb_lastRequest= this.lastRequest;
 			}
 		}
-		out.response= toString( response.fileContent );
+		out.response= toString( http.fileContent );
 		out.statusCode= http.responseHeader.Status_Code ?: 500;
 		this.debugLog( out.statusCode );
 		if ( left( out.statusCode, 1 ) == 4 || left( out.statusCode, 1 ) == 5 ) {
@@ -146,7 +147,8 @@ component name="reverb" displayname="reverb API REST Wrapper v2" {
 			*/
 			}
 		} catch (any cfcatch) {
-			out.error= "JSON Error: " & cfcatch.message;
+			this.debugLog( "Json parse failed: " & cfcatch.message & " " & cfcatch.detail );
+			out.error= "JSON Error: " & cfcatch.message & " " & cfcatch.detail;
 		}
 		if ( len( out.error ) ) {
 			out.success= false;
