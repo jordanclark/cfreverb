@@ -72,9 +72,9 @@ component name="reverb" displayname="reverb API REST Wrapper v2" {
 		};
 		out.requestUrl &= listRest( out.args.api, " " );
 		structDelete( out.args, "api" );
-		//  replace {var} in url 
+		// replace {var} in url 
 		for ( item in out.args ) {
-			//  strip NULL values 
+			// strip NULL values 
 			if ( isNull( out.args[ item ] ) ) {
 				structDelete( out.args, item );
 			} else if ( isSimpleValue( arguments[ item ] ) && arguments[ item ] == "null" ) {
@@ -130,7 +130,7 @@ component name="reverb" displayname="reverb API REST Wrapper v2" {
 		} else if ( left( out.statusCode, 1 ) == 2 ) {
 			out.success= true;
 		}
-		//  parse response 
+		// parse response 
 		try {
 			out.data= deserializeJSON( out.response );
 			if ( isStruct( out.data ) && structKeyExists( out.data, "error" ) ) {
@@ -155,13 +155,13 @@ component name="reverb" displayname="reverb API REST Wrapper v2" {
 		}
 		return out;
 	}
-	//  ---------------------------------------------------------------------------- 
-	//  ITEMS 
-	//  ---------------------------------------------------------------------------- 
+	// ---------------------------------------------------------------------------- 
+	// ITEMS 
+	// ---------------------------------------------------------------------------- 
 	
-	//  ---------------------------------------------------------------------------- 
-	//  MARKETPLACE 
-	//  ---------------------------------------------------------------------------- 
+	// ---------------------------------------------------------------------------- 
+	// MARKETPLACE 
+	// ---------------------------------------------------------------------------- 
 
 	struct function listOrders(string status= "all", numeric page= 1, numeric per_page= 50) {
 		return this.apiRequest( api= "GET /my/orders/selling/{status}", argumentCollection= arguments );
