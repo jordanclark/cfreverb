@@ -147,8 +147,8 @@ component name="reverb" displayname="reverb API REST Wrapper v2" {
 			*/
 			}
 		} catch (any cfcatch) {
-			this.debugLog( "Json parse failed: " & cfcatch.message & " " & cfcatch.detail );
-			out.error= "JSON Error: " & cfcatch.message & " " & cfcatch.detail;
+			out.error= "JSON Error: " & (cfcatch.message?:"No catch message") & " " & (cfcatch.detail?:"No catch detail");
+			this.debugLog( out.error );
 		}
 		if ( len( out.error ) ) {
 			out.success= false;
