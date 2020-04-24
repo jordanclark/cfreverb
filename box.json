@@ -1,7 +1,7 @@
 {
     "name":"cfreverb",
     "slug":"cfreverb",
-    "version":"0.6.3",
+    "version":"0.6.4",
     "author":"Jordan Clark <jordanclark@gmail.com>",
     "keywords":[
         "reverb",
@@ -12,7 +12,7 @@
     ],
     "shortDescription":"API client for reverb.com sellers",
     "type":"modules",
-    "location":"jordanclark/cfreverb#v0.6.3",
+    "location":"jordanclark/cfreverb#v0.6.4",
     "repository":{
         "URL":"https://github.com/jordanclark/cfreverb.git",
         "type":"GIT"
