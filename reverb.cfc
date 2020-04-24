@@ -1,5 +1,5 @@
 component name="reverb" displayname="reverb API REST Wrapper v2" {
-	cfprocessingdirective( preserveCase=true );
+	// cfprocessingdirective( preserveCase=true );
 
 	reverb function init(
 		required string apiBearer
@@ -9,8 +9,9 @@ component name="reverb" displayname="reverb API REST Wrapper v2" {
 	,	string userAgent= "CFML API Agent 0.1"
 	,	numeric throttle= 250
 	,	numeric httpTimeOut= 60
-	,	boolean debug= ( request.debug ?: false )
+	,	boolean debug
 	) {
+		arguments.debug = ( arguments.debug ?: request.debug ?: false );
 		this.apiBearer= arguments.apiBearer;
 		this.apiVersion= arguments.apiVersion;
 		this.apiUrl= arguments.apiUrl;
@@ -50,7 +51,12 @@ component name="reverb" displayname="reverb API REST Wrapper v2" {
 				request.log( arguments.input );
 			}
 		} else {
-			cftrace( text=( isSimpleValue( arguments.input ) ? arguments.input : "" ), var=arguments.input, category="reverb", type="information" );
+			var info= ( isSimpleValue( arguments.input ) ? arguments.input : serializeJson( arguments.input ) );
+			cftrace(
+				var= "info"
+			,	category= "reverb"
+			,	type= "information"
+			);
 		}
 		return;
 	}
